@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>TodoDS</title>
+        <meta charset="UTF-8">
+        <link rel="stylesheet" href="../resources/css/index.css">
+        <link href="../resources/css/pure-release-0.6.2/pure-min.css" rel="stylesheet"/>
+        <link href="../resources/css/pure-release-0.6.2/tables-min.css" rel="stylesheet"/>
+    </head>
+    <body>
+        <div id="popup1" class="overlay" data-bind="visible: dialog, style: {opacity: dialog ? 1 : 0}">
+            <div class="popup">
+                <h2>Alert</h2>
+                <a class="close" href="#" data-bind="click: hideDialog">&times;</a>
+                <div class="content">
+                    <span data-bind="text: message"></span>
+                </div>
+            </div>
+        </div>        
+        <!-- ${browser.bootstrap} -->
+        <div data-bind="template: {name: 'task', if: !edited()}"></div>
+        <div data-bind="template: {name: 'editor', if: edited(), data: edited()}"></div>
+        <script type="text/html" id="task">
+        <h2>Tasks</h2>
+        <div class="pure-menu pure-menu-horizontal">
+            <ul class="pure-menu-list">
+                <li class="pure-menu-item pure-menu-selected">
+                    <a class="pure-button" data-bind="click: addNew">
+                        <img src="../resources/icons/add_obj.gif" 
+                             alt="Add Task..." title="Add Task..."/>
+                    </a>
+                </li>
+                <li class="pure-menu-item pure-menu-selected">
+                    <input id="tglShowCompleted" type="checkbox" title="Show Completed..."
+                           checked="showCompleted" name ="tglShowCompleted" 
+                           class="showCompletedCheckbox" data-bind="checked: showCompleted"/>
+                    <label for="tglShowCompleted"></label>
+                </li>
+                <li class="pure-menu-item pure-menu-selected">
+                    <input id="tglSortByPriority" type="checkbox" title="Sort By Priority..."
+                           checked="sortByPriority" name ="tglSortByPriority" 
+                           class="sortByCheckbox" data-bind="checked: sortByPriority"/>
+                    <label for="tglSortByPriority"></label> 
+                </li>
+                <li class="pure-menu-item pure-menu-selected">
+                    <a class="pure-button" data-bind="click: expiredTasks">
+                        <img src="../resources/icons/warning.gif" 
+                             alt="Show Alerts..." title="Show Alerts..."/>
+                    </a>
+                </li>
+            </ul>   
+        </div>        
+        <table class="pure-table pure-table-bordered"> 
+            <thead> 
+                <tr>
+                    <th>Priority</th> 
+                    <th>Description</th> 
+                    <th>Alert?</th> 
+                    <th>Due Date</th> 
+                    <th></th>
+                </tr> 
+            </thead>
+            <tbody>
+            <!--<tbody data-bind="foreach: sortedAndFilteredTasks">--> 
+            <!-- ko foreach: sortedAndFilteredTasks -->
+                <tr>
+                        <td data-bind="text: priority, 
+                            style: { 'background-color': completed() ? 'green' : 'white' }"></td> 
+                        <td data-bind="text: description, 
+                            style: { 'background-color': completed() ? 'green' : 'white' }"></td> 
+                        <td data-bind="text: alert, 
+                            style: { 'background-color': completed() ? 'green' : 'white' }"></td> 
+                        <td data-bind="text: dueDate, 
+                            style: { 'background-color': completed() ? 'green' : 'white' }"></td> 
+                    <td>
+                        <div class="pure-menu pure-menu-horizontal" >
+                            <ul class="pure-menu-list">
+                                <li class="pure-menu-item">
+                                    <a class="pure-button" data-bind="click: $root.edit">
+                                        <img src="../resources/icons/configs.gif" 
+                                             alt="Edit Task..." title="Edit Task..."/>
+                                    </a>
+                                </li>
+                                <li class="pure-menu-item">
+                                    <a class="pure-button" data-bind="click: $parent.removeTask">
+                                        <img src="../resources/icons/delete_edit.gif" 
+                                             alt="Remove Task..." title="Remove Task..."/>
+                                    </a>
+                                </li>
+                                <li class="pure-menu-item">
+                                    <input id="tglMarkAsCompleted" type="checkbox" 
+                                           name ="tglMarkAsCompleted" title="Mark As Completed..." 
+                                           checked="completed" data-bind="checked: completed"/>
+                                </li>
+                            </ul>
+                        </div>
+                    </td>
+                </tr>
+                <!-- /ko -->
+            </tbody>
+        </table>
+        <hr/>
+        <div class="footer">There are <label data-bind="text: $data.numberOfTasksWithAlert"/></label> task(s) with alerts today.</div> 
+        </script>
+        <script type="text/html" id="editor">
+            <form id="edit-form" class="pure-form pure-form-aligned">
+                <fieldset> 
+                    <legend><h2>Create/Edit Task</h2></legend>
+                    <div class="pure-control-group">
+                        <label for="description">Description:</label>
+                        <input id="description" class="pure-input-1-2" type="text" placeholder="Description" data-bind="textInput: description" required></input>
+                    </div>
+                    <div class="pure-control-group">
+                        <label for="priority">Priority:</label>
+                        <input id="priority" class="pure-input-1-2" type="number" placeholder="Priority" min="1" max="10" data-bind="textInput: priority" required></input>
+                    </div>
+                    <div class="pure-control-group">
+                        <label for="dueDate">Due Date:</label>
+                        <input id="dueDate" class="pure-input-1-2" type="text" placeholder="Due Date" data-bind="textInput: dueDate" required></input>
+                    </div>
+                    <div class="pure-control-group">
+                        <label for="alert" class="pure-checkbox">
+                            <input id="alert" type="checkbox" data-bind="checked: alert"></input>Show alert:
+                        </label>
+                        <input class="pure-input-1-3" type="number" min="0" max="365" data-bind="textInput: daysBefore"></input>
+                        <span class="pure-form-message-inline">days before</span>
+                    </div>
+                    <div class="pure-control-group">
+                        <label for="obs">Obs:</label>
+                        <textarea id="obs" class="pure-input-1-2" rows="4" cols="50" placeholder="Obs" data-bind="textInput: obs"></textarea>
+                    </div>
+                    <div class="pure-control-group">
+                        <label for="completed">
+                            <input id="completed" type="checkbox" data-bind="checked: completed"></input>Completed Task
+                        </label>
+                    </div>
+                    <div class="pure-controls">
+                        <button class="pure-button pure-button-primary" type="submit" data-bind="click: $root.commit">Save</button>
+                        <button class="pure-button" type="reset">Clear</button>
+                        <button class="pure-button" data-bind="click: $root.cancel" type="submit">Cancel</button>
+                    </div>
+                    <div class="warning" data-bind="text: validate"></div>
+                </fieldset>
+            </form>
+        </script>          
+    </body>
+</html>

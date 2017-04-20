@@ -1,0 +1,125 @@
+.rTable {
+    display: table;
+    width: 100%;
+} 
+.rTableRow {
+    display: table-row;
+} 
+.rTableHead{
+    display: table-cell;
+    padding: 3px 10px;
+    border: 1px solid #999999;
+    background-color: #ddd;
+    font-weight: bold;    
+}
+.rTableCell {
+    display: table-cell;
+    padding: 3px 10px;
+    border: 1px solid #999999;
+} 
+.rTableHeading {
+    display: table-header-group;
+    background-color: #ddd;
+    font-weight: bold;
+} 
+.rTableFoot {
+    display: table-footer-group;
+    font-weight: bold;
+    background-color: #ddd;
+} 
+.rTableBody {
+    display: table-row-group;
+}
+
+input[type=checkbox].showCompletedCheckbox:before {
+    content:""; 
+    display:inline-block; 
+    width:16px;
+    height:16px;  
+    background-size: 100%;
+    padding: 0 0 0 0px;
+    background-color: lightgrey;
+    background-image: url('../icons/tasks_tsk.gif') ;
+}
+
+input[type=checkbox].showCompletedCheckbox:checked:before {
+    display:inline-block;
+    padding: 0 0 0 0px;
+    content:"";     
+    border: 0.0625em solid rgb(192,192,192);
+    background-color: lightgrey;
+    background-image:url('../icons/tasks_tsk.gif');
+}
+
+input[type=checkbox].sortByCheckbox:before {
+    content:""; 
+    display:inline-block; 
+    width:16px;
+    height:16px;  
+    background-size: 100%;
+    padding: 0 0 0 0px;
+    background-color: lightgrey;
+    background-image: url('../icons/next_nav.gif');
+}
+
+input[type=checkbox].sortByCheckbox:checked:before {
+    display:none;
+    content:""; 
+    display:inline-block;     
+    border: 0.0625em solid rgb(192,192,192);
+    background-color: lightgrey;
+    background-image:url('../icons/next_nav.gif');
+}
+
+.overlay {
+    z-index: 10;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(0, 0, 0, 0.7);
+    transition: opacity 500ms;
+
+}
+.overlay:target {
+    visibility: visible;
+    opacity: 1;
+}
+
+.popup {
+    margin: 70px auto;
+    padding: 20px;
+    background: #fff;
+    border-radius: 5px;
+    width: 30%;
+    position: relative;
+    transition: all 5s ease-in-out;
+}
+
+.popup h2 {
+    margin-top: 0;
+    color: #333;
+    font-family: Tahoma, Arial, sans-serif;
+}
+.popup .close {
+    position: absolute;
+    top: 20px;
+    right: 30px;
+    transition: all 200ms;
+    font-size: 30px;
+    font-weight: bold;
+    text-decoration: none;
+    color: #333;
+}
+.popup .close:hover {
+    color: #06D85F;
+}
+.popup .content {
+    max-height: 30%;
+    overflow: auto;
+}
+
+.warning {
+    color: red;
+}
